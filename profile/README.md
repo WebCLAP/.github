@@ -25,6 +25,10 @@ If the WCLAP is a directory (or when fetched via URL, a `.tar.gz` which expands 
 
 The WCLAP may import WASI, and hosts should provide this where possible.  If the plugin is a directory, that entire directory should be available through the WASI filesystem (and pointed to in `clap_entry.init()`), but not necessarily at the top-level.
 
+### GUI
+
+CLAP v1.2.7 introduced the [draft webview extension](https://github.com/free-audio/clap/blob/main/include/clap/ext/draft/webview.h).  This is the main way WCLAPs can provide a user-interface, since it requires no platform-specific view-handles or headers, but plugins may still implement `clap.gui` as well (with `CLAP_WINDOW_API_WEBVIEW`) to get show/hide updates and provide size information.
+
 ## WebAssembly, WASI, and the future
 
 The WCLAP format should improve "for free" in line with both the CLAP and WebAssembly specifications.  However, since the WebAssembly standards/ecosystem are still fairly new, there are some things worth highlighting for those coming from the native CLAP world:
