@@ -1,6 +1,6 @@
 # WCLAP: CLAP compiled to WebAssembly
 
-The [CLAP plugin format](https://github.com/free-audio/clap) translates straightforwardly to WebAssembly, and this is supported by some of the main CLAP helpers (e.g. [clap-wrapper](https://github.com/free-audio/clap-wrapper)).
+The [CLAP audio plugin format](https://github.com/free-audio/clap) translates straightforwardly to WebAssembly, and this is supported by some of the main CLAP helpers (e.g. [clap-wrapper](https://github.com/free-audio/clap-wrapper)).
 
 The [Signalsmith C++ examples](https://github.com/geraintluff/signalsmith-clap-cpp) are simple demonstrations of this, and include instructions to build either with [WASI SDK](https://github.com/WebAssembly/wasi-sdk) (recommended) or Emscripten.
 
@@ -14,10 +14,12 @@ The [Signalsmith C++ examples](https://github.com/geraintluff/signalsmith-clap-c
 
 A WCLAP is a CLAP module compiled to WebAssembly module.  It must:
 
-* export `clap_entry` (an integer which is secretly `clap_plugin_entry *`)
+* export `clap_entry` (an integer representing `clap_plugin_entry *`)
 * import memory (must be shared) or export memory (may be shared) - if it does both, hosts should ignore the export.
 * export exactly one (growable) function table, so the host can add its functions and reference them.
 * export `malloc()` or something like it (`void * malloc(size_t)`) - also see the note about `cabi_realloc()` below
+
+WCLAPs have the extension `.wclap`.  On native machines, their default directories / search paths are the same as CLAP, but with an extra W (e.g. on Linux `/usr/lib/wclap` on Linux, `~/Library/Audio/Plug-Ins/WCLAP` on MacOS).
 
 ### Bundles (directories / `.tar.gz`)
 
