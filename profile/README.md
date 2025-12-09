@@ -33,11 +33,13 @@ CLAP v1.2.7 introduced the [draft webview extension](https://github.com/free-aud
 
 ## WebAssembly, WASI, and the future
 
-The WCLAP format should improve "for free" in line with both the CLAP and WebAssembly specifications.  However, since the WebAssembly standards/ecosystem are still fairly new, there are some things worth highlighting for those coming from the native CLAP world:
+Since WCLAPs are basically just "CLAP + WebAssembly", the format should improve "for free" in line with both the CLAP and WebAssembly specifications.  However, since the WebAssembly standards/ecosystem are still fairly new, there are some things worth highlighting for those coming from the native CLAP world:
 
 ### WASI
 
-If WebAssembly is the architecture, WASI is the platform, providing system calls.  The widely-supported version is v0.1 (a.k.a. `wasi_snapshot_preview1`) which isn't perfect, but good enough to get many things to work.  You probably don't have to deal with this yourself, toolchains provide standard libraries built on top of this (e.g. [wasi-libc](https://github.com/WebAssembly/wasi-libc)).
+If WebAssembly is the architecture, WASI is the platform, providing system calls.  The widely-supported version is v0.1 (a.k.a. `wasi_snapshot_preview1`) which isn't perfect, but good enough to get many things to work.  The file-system and random-number generation are the most essential, and (following POSIX) logging goes through the pre-opened file handles 1 & 2, and you can return an error code for anything you don't support (e.g. trying to use sockets).
+
+You shouldn't have to make any WASI calls yourself, because toolchains provide standard libraries built on top of this (e.g. [wasi-libc](https://github.com/WebAssembly/wasi-libc)).
 
 Having proven that this approach is possible, the WASI folks stopped work on 0.1, and are rewriting everything in a more modular way for 0.2+.  However, due to current wide support, it's reasonable to expect hosts to support `wasi_snapshot_preview1` in future as well, possibly using polyfills/adapters which forward things to 0.2+.
 
