@@ -1,6 +1,6 @@
 # WCLAP: CLAP compiled to WebAssembly
 
-The [CLAP plugin format](https://github.com/free-audio/clap) translates straightforwardly to WebAssembly, and this is supported by some official CLAP helpers (e.g. [clap-wrapper](https://github.com/free-audio/clap-wrapper)).
+The [CLAP plugin format](https://github.com/free-audio/clap) translates straightforwardly to WebAssembly, and this is supported by some of the main CLAP helpers (e.g. [clap-wrapper](https://github.com/free-audio/clap-wrapper)).
 
 The [Signalsmith C++ examples](https://github.com/geraintluff/signalsmith-clap-cpp) are simple demonstrations of this, and include instructions to build either with [WASI SDK](https://github.com/WebAssembly/wasi-sdk) (recommended) or Emscripten.
 
