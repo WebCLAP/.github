@@ -1,4 +1,4 @@
-# WCLAP: portable CLAP audio plugins
+# WCLAP: portable audio plugins with WebAssembly
 
 By exporting the [CLAP API](https://github.com/free-audio/clap) API from a WebAssembly module, we get a single cross-platform binary which can run in native DAWs (using the [bridge plugin / library](https://github.com/WebCLAP/wclap-bridge)), as well as [in the browser](https://webclap.github.io/browser-test-host/).  This gives us all the flexibility of a proven audio-plugin standard with the safety and cross-platform compatibility of web-tech.
 
