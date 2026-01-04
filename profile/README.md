@@ -1,14 +1,19 @@
-# WCLAP: CLAP compiled to WebAssembly
+# WCLAP: portable CLAP audio plugins
 
-The [CLAP audio plugin format](https://github.com/free-audio/clap) translates straightforwardly to WebAssembly, and this is supported by some of the main CLAP helpers (e.g. [clap-wrapper](https://github.com/free-audio/clap-wrapper)).
+By exporting the [CLAP API](https://github.com/free-audio/clap) API from a WebAssembly module, we get a single cross-platform binary which can run in native DAWs (using the [bridge plugin / library](https://github.com/WebCLAP/wclap-bridge)), as well as [in the browser](https://webclap.github.io/browser-test-host/).  This gives us all the flexibility of a proven audio-plugin standard with the safety and cross-platform compatibility of web-tech.
 
-The [Signalsmith C++ examples](https://github.com/geraintluff/signalsmith-clap-cpp) are simple demonstrations of this, and include instructions to build either with [WASI SDK](https://github.com/WebAssembly/wasi-sdk) (recommended) or Emscripten.
+Compiling to WebAssembly is supported by some of the main CLAP helpers (e.g. [clap-wrapper](https://github.com/free-audio/clap-wrapper)), so you can produce WCLAPs and platform-specific builds from the same project.  The [Signalsmith C++ CLAP examples](https://github.com/geraintluff/signalsmith-clap-cpp) include instructions to build either with [WASI SDK](https://github.com/WebAssembly/wasi-sdk) (recommended) or Emscripten.
+
+### Projects in this org
+
+* [wclap-bridge](https://github.com/WebCLAP/wclap-bridge) - a native CLAP/VST3 plugin, and re-usable C-API library.  This provides WCLAPs to your native DAW (including [webview UIs](https://github.com/free-audio/clap/blob/main/include/clap/ext/draft/webview.h)).  Based on Wasmtime, WCLAPs use approximately 1.5x the CPU of the corresponding native builds.
+* [wclap-js](https://github.com/WebCLAP/wclap-js) and [browser-test-host](https://github.com/WebCLAP/browser-test-host) - tools for hosting WCLAPs in the browser, and an example host which wraps into an `AudioWorkletNode`.
 
 ## Goals
 
-* Portable audio plugins, across native architectures and browsers
-* Sandboxed execution (risk-free use, allows one-click installation)
-* Based on existing standards/specs
+* Truly portable audio plugins: a single binary/bundle which runs on all native architectures and browsers
+* Sandboxed execution: risk-free use/installation, even for native DAWs
+* Based on existing standards/specs: flexible, proven and future-compatible
 
 ## Technical description
 
@@ -29,7 +34,7 @@ The WCLAP may import WASI, and hosts should provide this where possible.  If the
 
 ### GUI
 
-CLAP v1.2.7 introduced the [draft webview extension](https://github.com/free-audio/clap/blob/main/include/clap/ext/draft/webview.h).  This is the main way WCLAPs can provide a user-interface, since it requires no platform-specific view-handles or headers, but plugins may still implement `clap.gui` as well (with `CLAP_WINDOW_API_WEBVIEW`) to get show/hide updates and provide size information.
+CLAP v1.2.7 introduced the [draft webview extension](https://github.com/free-audio/clap/blob/main/include/clap/ext/draft/webview.h).  This is the main way WCLAPs can provide a user-interface, since it requires no platform-specific view-handles or headers.  Plugins may still implement `clap.gui` as well (with `CLAP_WINDOW_API_WEBVIEW`) to get show/hide updates and provide size information.
 
 ## WebAssembly, WASI, and the future
 
