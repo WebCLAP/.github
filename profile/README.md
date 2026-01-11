@@ -24,13 +24,19 @@ A WCLAP is a CLAP module compiled to WebAssembly module.  It must:
 * export exactly one (growable) function table, so the host can add its functions and reference them.
 * export `malloc()` or something like it (`void * malloc(size_t)`) - also see the note about `cabi_realloc()` below
 
-WCLAPs have the extension `.wclap`.  On native machines, their default directories / search paths are the same as CLAP, but with an extra W (e.g. on Linux `/usr/lib/wclap` on Linux, `~/Library/Audio/Plug-Ins/WCLAP` on MacOS).
+The WCLAP may import WASI, and hosts should provide this where possible.  If the plugin is a bundle/directory, the actual binary should be `./module.wasm`, and the entire bundle/directory should be available through the WASI filesystem (and pointed to in `clap_entry.init()`), but not necessarily at the top-level.  The WASI filesystem should be Unix-like (with a root at `/`) but might not support symlinks, so bundles should avoid these.
 
-### Bundles (directories / `.tar.gz`)
+### Search directories and bundles (directories / `.tar.gz`)
 
-If the WCLAP is a directory (or when fetched via URL, a `.tar.gz` which expands into a directory) then the actual binary should be `./module.wasm`.
+On native machines, the default search paths/directories are the same as CLAP, but with an extra W (e.g. on Linux `/usr/lib/wclap` on Linux, `~/Library/Audio/Plug-Ins/WCLAP` on MacOS).
 
-The WCLAP may import WASI, and hosts should provide this where possible.  If the plugin is a directory, that entire directory should be available through the WASI filesystem (and pointed to in `clap_entry.init()`), but not necessarily at the top-level.
+WCLAPs (whether self-contained or bundles) should have the extension `.wclap`.  The WASM binary of a bundle will therefore be in `.../some-plugin.wclap/module.wasm`.
+
+### Serving over HTTP
+
+When fetched via URL, self-contained binaries should be served with a `.wasm` extension (or `.wclap.wasm` for clarity) so that the `Content-Type` is set appropriately.  Bundles should be a `.tar.gz` (or `.wclap.tar.gz`) which expands into the bundle directory.
+
+The two *can* be distinguished using the "magic number" at the beginning of the file (`00 61 73 6D` for WASM, `1F 8B` for Gzip).
 
 ### GUI
 
