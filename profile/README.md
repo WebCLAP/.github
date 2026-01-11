@@ -34,9 +34,11 @@ WCLAPs (whether self-contained or bundles) should have the extension `.wclap`.  
 
 ### Serving over HTTP
 
-When fetched via URL, self-contained binaries should be served with a `.wasm` extension (or `.wclap.wasm` for clarity) so that the `Content-Type` is set appropriately.  Bundles should be a `.tar.gz` (or `.wclap.tar.gz`) which expands into the bundle directory.
+When linked via URL, self-contained binaries should be served with a `.wasm` extension (or `.wclap.wasm` for clarity) so that the `Content-Type` is set appropriately.  If downloading to a local filesystem, this `.wasm` suffix should be removed (and `.wclap` added if not present).
 
-The two *can* be distinguished using the "magic number" at the beginning of the file (`00 61 73 6D` for WASM, `1F 8B` for Gzip).
+Bundles should be a `.tar.gz` (or `.wclap.tar.gz`) which expands into the bundle directory.  If downloading to a local filesystem, the bundle should be unpacked into a directory.
+
+(Although the two alternatives *can* be distinguished using the "magic number" at the beginning of the file (`00 61 73 6D` for WASM, `1F 8B` for Gzip), that's not recommended.)
 
 ### GUI
 
